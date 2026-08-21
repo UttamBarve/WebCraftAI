@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 
-const Navbar = () => {
+const Navbar = ({onGetStarted}) => {
   return (
     <motion.div
       initial={{ y: -40, opacity: 0 }}
@@ -14,7 +14,7 @@ const Navbar = () => {
           <div className="hidden md:inline text-sm text-zinc-400 hover:text-white cursor-pointer">
             Pricing
           </div>
-          <button className="px-4 py-2 rounded-lg border border-white/20 hover:bg-white/10 text-sm cursor-pointer">
+          <button className="px-4 py-2 rounded-lg border border-white/20 hover:bg-white/10 text-sm cursor-pointer" onClick={onGetStarted}>
             Get Started
           </button>
         </div>

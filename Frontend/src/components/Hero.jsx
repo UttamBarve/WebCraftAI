@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "motion/react";
 
-const Hero = () => {
+const Hero = ({onGetStarted}) => {
   return (
-    <div className="pt-44 pb-32 px-6 text-center flex flex-col items-center justify-center">
+    <div className="mb-20 pt-44 pb-32 px-6 text-center flex flex-col items-center justify-center">
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,6 +35,7 @@ const Hero = () => {
           className="px-10 py-4 rounded-xl font-semibold hover:scale-105 transition mt-8 text-black
         bg-linear-to-r from-purple-500 to-blue-400 cursor-pointer
         "
+        onClick={onGetStarted}
         >
           Get Started
         </button>
