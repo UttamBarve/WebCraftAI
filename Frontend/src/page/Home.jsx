@@ -6,10 +6,9 @@ import Footer from "@/components/Footer";
 import LoginCard from "@/components/LoginCard";
 
 
-
 const Home = () => {
   const [openLogin, setOpenLogin] = useState(false);
-  console.log(openLogin)
+
   return (
     <div className="relative min-h-screen bg-[#040404] text-white overflow-hidden">
       {/* Header */}
@@ -26,7 +25,7 @@ const Home = () => {
 
       {/* Login */}
       {openLogin && (
-        <LoginCard onClose={() => setOpenLogin(false)} />
+        <LoginCard onClose={() => setOpenLogin(false)}/>
       )}
     </div>
   );

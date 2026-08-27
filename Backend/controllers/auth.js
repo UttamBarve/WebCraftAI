@@ -10,10 +10,11 @@ const logIn = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
+    console.log("user check");
 
     if (!user) {
-      const user = await User.create({
+      user = await User.create({
         name,
         email,
         avatar,
@@ -32,10 +33,10 @@ const logIn = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
-      sameSite: "stict",
+      sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-
+    
     return res.status(200).json(user);
   } catch (err) {
     return res
@@ -52,5 +53,4 @@ const logOut = async (req, res) => {
   }
 };
 
-
-module.exports = {logIn, logOut};
+module.exports = { logIn, logOut };
