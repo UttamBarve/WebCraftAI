@@ -1,7 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const userRouter = require("./routes/auth");
+const authRouter = require("./routes/auth");
+const userRouter = require("./routes/user");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const auth = require("./middlewares/auth");
@@ -17,7 +18,8 @@ app.use(cors({
   credentials: true
 }))
  
-app.use("/api/v0/auth", userRouter);
+app.use("/api/v0/auth", authRouter);
+app.use("/api/v0/user", auth, userRouter);
 
 const PORT = process.env.PORT || 8000;
 

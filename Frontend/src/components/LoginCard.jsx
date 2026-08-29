@@ -1,25 +1,27 @@
 import React from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/config/firebase";
 import api from "../service/api";
+import { setUserData } from "../features/userSlice";
+import { useDispatch } from "react-redux";
 
 const LoginCard = ({ onClose }) => {
+  const dispatch = useDispatch();
+
   const handleGoogleAuth = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log(result);
-      const { data } = await api.post(
-        "/v0/auth/login",
-        {
-          name: user.displayName,
-          email: user.email,
-          avatar: user.photoURL,
-        },
-        { withCredentials: true },
-      );
+      const { data } = await api.post("/v0/auth/login", {
+        name: user.displayName,
+        email: user.email,
+        avatar: user.photoURL,
+      });
+      dispatch(setUserData(data));
+
       console.log(data);
 
       onClose();
