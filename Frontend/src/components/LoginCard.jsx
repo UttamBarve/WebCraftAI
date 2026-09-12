@@ -22,8 +22,6 @@ const LoginCard = ({ onClose }) => {
       });
       dispatch(setUserData(data));
 
-      console.log(data);
-
       onClose();
     } catch (error) {
       console.error("ERROR : " + error);
