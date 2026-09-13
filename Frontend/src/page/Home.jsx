@@ -4,10 +4,12 @@ import Hero from "../components/Hero";
 import Cards from "../components/Cards";
 import Footer from "@/components/Footer";
 import LoginCard from "@/components/LoginCard";
+import { useSelector } from "react-redux";
 
 
 const Home = () => {
   const [openLogin, setOpenLogin] = useState(false);
+
 
   return (
     <div className="relative min-h-screen bg-[#040404] text-white overflow-hidden">
