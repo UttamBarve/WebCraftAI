@@ -2,14 +2,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { setUserData } from "../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Coins } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import api from "@/service/api";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ onGetStarted }) => {
   const { userData } = useSelector((state) => state.user);
   const [openProfile, setOpenProfile] = useState(false);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleLogOut = async () => {
     try {
       await api.get("/v0/auth/logout");

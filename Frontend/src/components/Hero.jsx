@@ -1,7 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Hero = ({onGetStarted}) => {
+  const { userData } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
   return (
     <div className="mb-20 pt-44 pb-32 px-6 text-center flex flex-col items-center justify-center">
       <motion.h1
@@ -35,9 +40,9 @@ const Hero = ({onGetStarted}) => {
           className="px-10 py-4 rounded-xl font-semibold hover:scale-105 transition mt-8 text-black
         bg-linear-to-r from-purple-500 to-blue-400 cursor-pointer
         "
-        onClick={onGetStarted}
+        onClick={()=>userData?navigate("/dashboard"):onGetStarted()}
         >
-          Get Started
+          {userData?"Go To Dashboard":"Get Started"}
         </button>
       </motion.div>
     </div>
