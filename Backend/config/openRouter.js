@@ -1,11 +1,8 @@
-const openRouterURL = "https://openrouter.ai/api/v1/chat/completions";
-
-const openRouterAPI = process.env.OPENROUTER_API;
-
-const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL;
-
 const generateResponse = async (prompt) => {
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+  const openRouterAPI = process.env.OPENROUTER_API;
+  const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL;
+  const OPENROUTER_URL = process.env.OPENROUTER_URL;
+  const res = await fetch(OPENROUTER_URL, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${openRouterAPI}`,
@@ -32,3 +29,7 @@ const generateResponse = async (prompt) => {
   const data = await res.json();
   return data;
 };
+
+
+
+module.exports = generateResponse

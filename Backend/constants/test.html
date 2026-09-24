@@ -1,0 +1,2417 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aurum — Fine Dining Experience</title>
+    <style>
+      /* ===== CSS CUSTOM PROPERTIES ===== */
+      :root {
+        --color-bg: #faf8f5;
+        --color-surface: #ffffff;
+        --color-text: #1a1a1a;
+        --color-text-muted: #6b6b6b;
+        --color-primary: #8b6914;
+        --color-primary-dark: #6b4f0f;
+        --color-primary-light: #c9a84c;
+        --color-accent: #c0392b;
+        --color-border: #e8e4dd;
+        --color-shadow: rgba(26, 26, 26, 0.08);
+        --color-shadow-strong: rgba(26, 26, 26, 0.15);
+
+        --font-sans:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          sans-serif;
+        --font-serif: Georgia, "Times New Roman", serif;
+
+        --space-xs: 0.5rem;
+        --space-sm: 1rem;
+        --space-md: 1.5rem;
+        --space-lg: 2.5rem;
+        --space-xl: 4rem;
+        --space-2xl: 6rem;
+
+        --radius-sm: 4px;
+        --radius-md: 8px;
+        --radius-lg: 16px;
+        --radius-full: 9999px;
+
+        --transition-fast: 150ms ease;
+        --transition-base: 250ms ease;
+        --transition-slow: 400ms ease;
+
+        --container-max: 1200px;
+        --header-height: 72px;
+      }
+
+      /* ===== RESET & BASE ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--color-text);
+        background-color: var(--color-bg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        background: none;
+      }
+      input,
+      textarea {
+        font-family: inherit;
+        font-size: 1rem;
+      }
+      ul {
+        list-style: none;
+      }
+
+      /* ===== TYPOGRAPHY ===== */
+      .heading-1 {
+        font-family: var(--font-serif);
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 400;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+      .heading-2 {
+        font-family: var(--font-serif);
+        font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+        font-weight: 400;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+      }
+      .heading-3 {
+        font-family: var(--font-sans);
+        font-size: clamp(1.125rem, 2vw, 1.375rem);
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+      .body-lg {
+        font-size: 1.125rem;
+        line-height: 1.7;
+        color: var(--color-text-muted);
+      }
+      .body-sm {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: var(--color-text-muted);
+      }
+      .label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+      }
+
+      /* ===== LAYOUT UTILITIES ===== */
+      .container {
+        width: 100%;
+        max-width: var(--container-max);
+        margin: 0 auto;
+        padding: 0 var(--space-md);
+      }
+      .grid {
+        display: grid;
+        gap: var(--space-lg);
+      }
+      .flex {
+        display: flex;
+      }
+      .flex-center {
+        align-items: center;
+        justify-content: center;
+      }
+      .flex-between {
+        align-items: center;
+        justify-content: space-between;
+      }
+      .gap-sm {
+        gap: var(--space-sm);
+      }
+      .gap-md {
+        gap: var(--space-md);
+      }
+      .gap-lg {
+        gap: var(--space-lg);
+      }
+
+      /* ===== BUTTONS ===== */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-xs);
+        padding: 0.875rem 2rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        border-radius: var(--radius-full);
+        transition: all var(--transition-base);
+        white-space: nowrap;
+      }
+      .btn-primary {
+        background: var(--color-primary);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--color-primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(139, 105, 20, 0.3);
+      }
+      .btn-primary:active {
+        transform: translateY(0);
+      }
+      .btn-outline {
+        border: 2px solid var(--color-primary);
+        color: var(--color-primary);
+        background: transparent;
+      }
+      .btn-outline:hover {
+        background: var(--color-primary);
+        color: #fff;
+      }
+      .btn-lg {
+        padding: 1rem 2.5rem;
+        font-size: 0.9375rem;
+      }
+
+      /* ===== HEADER / NAV ===== */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--header-height);
+        background: rgba(250, 248, 245, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--color-border);
+        z-index: 1000;
+        transition: all var(--transition-base);
+      }
+      .header.scrolled {
+        box-shadow: 0 4px 24px var(--color-shadow);
+      }
+      .header-inner {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .logo {
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: var(--color-text);
+        letter-spacing: -0.01em;
+      }
+      .logo span {
+        color: var(--color-primary);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-lg);
+      }
+      .nav-list {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+      }
+      .nav-link {
+        position: relative;
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-text);
+        transition: color var(--transition-fast);
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--color-primary);
+        transform: translateX(-50%);
+        transition: width var(--transition-base);
+      }
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--color-primary);
+      }
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 80%;
+      }
+
+      .nav-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        padding: var(--space-xs);
+      }
+      .nav-toggle span {
+        width: 24px;
+        height: 2px;
+        background: var(--color-text);
+        transition: all var(--transition-base);
+        border-radius: 2px;
+      }
+      .nav-toggle.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .nav-toggle.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      /* ===== PAGE CONTAINER ===== */
+      .app {
+        min-height: 100vh;
+      }
+      .page {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity var(--transition-slow),
+          transform var(--transition-slow);
+        padding-top: var(--header-height);
+      }
+      .page.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ===== HERO SECTION ===== */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background:
+          linear-gradient(
+            135deg,
+            rgba(26, 26, 26, 0.7) 0%,
+            rgba(26, 26, 26, 0.4) 100%
+          ),
+          url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80")
+            center/cover no-repeat;
+      }
+      .hero-content {
+        max-width: 720px;
+      }
+      .hero .label {
+        margin-bottom: var(--space-md);
+        display: inline-block;
+      }
+      .hero .heading-1 {
+        color: #fff;
+        margin-bottom: var(--space-md);
+      }
+      .hero .body-lg {
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: var(--space-xl);
+        max-width: 540px;
+      }
+      .hero-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-md);
+      }
+      .scroll-indicator {
+        position: absolute;
+        bottom: var(--space-xl);
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-xs);
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        animation: bounce 2s infinite;
+      }
+      .scroll-indicator svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          transform: translateX(-50%) translateY(8px);
+        }
+      }
+
+      /* ===== SECTIONS ===== */
+      .section {
+        padding: var(--space-2xl) 0;
+      }
+      .section-header {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto var(--space-2xl);
+      }
+      .section-header .label {
+        margin-bottom: var(--space-sm);
+        display: inline-block;
+      }
+      .section-header .heading-2 {
+        color: var(--color-text);
+      }
+      .section-header .body-lg {
+        margin-top: var(--space-md);
+      }
+
+      /* ===== ABOUT SECTION ===== */
+      .about {
+        background: var(--color-surface);
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+        align-items: center;
+      }
+      .about-image {
+        position: relative;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        aspect-ratio: 4/3;
+      }
+      .about-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-slow);
+      }
+      .about-image:hover img {
+        transform: scale(1.03);
+      }
+      .about-content .heading-2 {
+        margin-bottom: var(--space-md);
+      }
+      .about-content .body-lg {
+        margin-bottom: var(--space-md);
+      }
+      .about-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-lg);
+        margin-top: var(--space-xl);
+        padding-top: var(--space-lg);
+        border-top: 1px solid var(--color-border);
+      }
+      .stat {
+        text-align: center;
+        min-width: 120px;
+      }
+      .stat-value {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        font-weight: 400;
+        color: var(--color-primary);
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 0.875rem;
+        color: var(--color-text-muted);
+        margin-top: var(--space-xs);
+      }
+
+      /* ===== MENU / SERVICES ===== */
+      .menu {
+        background: var(--color-bg);
+      }
+      .menu-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-xs);
+        margin-bottom: var(--space-xl);
+      }
+      .menu-tab {
+        padding: var(--space-xs) var(--space-md);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-text-muted);
+        border-radius: var(--radius-full);
+        transition: all var(--transition-fast);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+      }
+      .menu-tab:hover,
+      .menu-tab.active {
+        background: var(--color-primary);
+        color: #fff;
+        border-color: var(--color-primary);
+      }
+      .menu-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+      .menu-item {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity var(--transition-base),
+          transform var(--transition-base);
+      }
+      .menu-item.active {
+        display: grid;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .menu-card {
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: 0 4px 24px var(--color-shadow);
+        transition: all var(--transition-base);
+      }
+      .menu-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px var(--color-shadow-strong);
+      }
+      .menu-card-image {
+        position: relative;
+        aspect-ratio: 16/10;
+        overflow: hidden;
+      }
+      .menu-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-slow);
+      }
+      .menu-card:hover .menu-card-image img {
+        transform: scale(1.05);
+      }
+      .menu-card-badge {
+        position: absolute;
+        top: var(--space-sm);
+        right: var(--space-sm);
+        background: var(--color-accent);
+        color: #fff;
+        font-size: 0.625rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 0.25rem 0.625rem;
+        border-radius: var(--radius-full);
+      }
+      .menu-card-content {
+        padding: var(--space-lg);
+      }
+      .menu-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--space-md);
+        margin-bottom: var(--space-xs);
+      }
+      .menu-card-title {
+        font-family: var(--font-serif);
+        font-size: 1.25rem;
+        font-weight: 400;
+        color: var(--color-text);
+      }
+      .menu-card-price {
+        font-family: var(--font-serif);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--color-primary);
+        white-space: nowrap;
+      }
+      .menu-card-desc {
+        color: var(--color-text-muted);
+        font-size: 0.9375rem;
+        line-height: 1.6;
+      }
+
+      /* ===== FEATURES / SERVICES ===== */
+      .features {
+        background: var(--color-surface);
+      }
+      .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+      .feature-card {
+        padding: var(--space-xl);
+        text-align: center;
+        border-radius: var(--radius-lg);
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        transition: all var(--transition-base);
+      }
+      .feature-card:hover {
+        border-color: var(--color-primary-light);
+        transform: translateY(-4px);
+      }
+      .feature-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto var(--space-md);
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-primary-light)
+        );
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .feature-icon svg {
+        width: 28px;
+        height: 28px;
+        stroke: #fff;
+      }
+      .feature-card .heading-3 {
+        margin-bottom: var(--space-sm);
+        color: var(--color-text);
+      }
+      .feature-card .body-sm {
+        color: var(--color-text-muted);
+      }
+
+      /* ===== CONTACT ===== */
+      .contact {
+        background: var(--color-bg);
+      }
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+        align-items: start;
+      }
+      .contact-info .heading-2 {
+        margin-bottom: var(--space-md);
+      }
+      .contact-info .body-lg {
+        margin-bottom: var(--space-xl);
+      }
+      .contact-details {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+      }
+      .contact-detail {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-md);
+      }
+      .contact-detail-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--color-primary);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .contact-detail-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke: #fff;
+      }
+      .contact-detail-text h4 {
+        font-family: var(--font-serif);
+        font-size: 1.125rem;
+        font-weight: 400;
+        margin-bottom: var(--space-xs);
+      }
+      .contact-detail-text p {
+        color: var(--color-text-muted);
+      }
+
+      .contact-form-container {
+        background: var(--color-surface);
+        padding: var(--space-xl);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 4px 24px var(--color-shadow);
+      }
+      .form-group {
+        margin-bottom: var(--space-md);
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+      .form-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: var(--space-xs);
+        color: var(--color-text);
+      }
+      .form-input,
+      .form-textarea {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background: var(--color-bg);
+        color: var(--color-text);
+        transition: all var(--transition-fast);
+      }
+      .form-input:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(139, 105, 20, 0.15);
+      }
+      .form-input.error,
+      .form-textarea.error {
+        border-color: var(--color-accent);
+      }
+      .form-error {
+        display: none;
+        font-size: 0.75rem;
+        color: var(--color-accent);
+        margin-top: var(--space-xs);
+      }
+      .form-error.visible {
+        display: block;
+      }
+      .form-textarea {
+        min-height: 140px;
+        resize: vertical;
+      }
+      .form-submit {
+        width: 100%;
+        margin-top: var(--space-sm);
+      }
+      .form-success {
+        display: none;
+        text-align: center;
+        padding: var(--space-xl);
+        color: var(--color-text-muted);
+      }
+      .form-success.visible {
+        display: block;
+      }
+      .form-success svg {
+        width: 64px;
+        height: 64px;
+        stroke: var(--color-primary);
+        margin-bottom: var(--space-md);
+      }
+
+      /* ===== FOOTER ===== */
+      .footer {
+        background: var(--color-text);
+        color: rgba(255, 255, 255, 0.7);
+        padding: var(--space-2xl) 0 var(--space-lg);
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+        margin-bottom: var(--space-xl);
+      }
+      .footer-brand .logo {
+        color: #fff;
+        margin-bottom: var(--space-md);
+        display: inline-block;
+      }
+      .footer-brand p {
+        max-width: 300px;
+        font-size: 0.9375rem;
+      }
+      .footer-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: var(--space-lg);
+      }
+      .footer-column h4 {
+        color: #fff;
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: var(--space-md);
+      }
+      .footer-column a {
+        display: block;
+        font-size: 0.9375rem;
+        margin-bottom: var(--space-xs);
+        transition: color var(--transition-fast);
+      }
+      .footer-column a:hover {
+        color: var(--color-primary-light);
+      }
+      .footer-bottom {
+        padding-top: var(--space-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-md);
+        font-size: 0.875rem;
+      }
+      .social-links {
+        display: flex;
+        gap: var(--space-md);
+      }
+      .social-links a {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--transition-fast);
+      }
+      .social-links a:hover {
+        background: var(--color-primary);
+      }
+      .social-links svg {
+        width: 20px;
+        height: 20px;
+        stroke: #fff;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (min-width: 768px) {
+        .about-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .contact-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .form-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .footer-grid {
+          grid-template-columns: 2fr 3fr;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .nav-list {
+          position: fixed;
+          top: var(--header-height);
+          left: 0;
+          right: 0;
+          background: var(--color-surface);
+          flex-direction: column;
+          padding: var(--space-lg);
+          gap: var(--space-xs);
+          box-shadow: 0 12px 24px var(--color-shadow);
+          transform: translateY(-100%);
+          opacity: 0;
+          visibility: hidden;
+          transition: all var(--transition-base);
+          border-bottom: 1px solid var(--color-border);
+        }
+        .nav-list.open {
+          transform: translateY(0);
+          opacity: 1;
+          visibility: visible;
+        }
+        .nav-link {
+          padding: var(--space-md);
+          width: 100%;
+          text-align: center;
+          font-size: 1rem;
+        }
+        .nav-toggle {
+          display: flex;
+        }
+        .hero {
+          min-height: 90vh;
+        }
+      }
+
+      @media (max-width: 767px) {
+        :root {
+          --header-height: 64px;
+        }
+        .hero {
+          min-height: 85vh;
+        }
+        .hero-buttons {
+          flex-direction: column;
+          width: 100%;
+        }
+        .hero-buttons .btn {
+          width: 100%;
+        }
+        .about-stats {
+          justify-content: space-around;
+        }
+        .stat {
+          min-width: auto;
+          flex: 1;
+        }
+        .stat-value {
+          font-size: 2rem;
+        }
+        .contact-form-container {
+          padding: var(--space-lg);
+        }
+      }
+
+      @media (max-width: 480px) {
+        :root {
+          --space-xl: 3rem;
+          --space-2xl: 4rem;
+        }
+        .container {
+          padding: 0 var(--space-sm);
+        }
+        .menu-card-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: var(--space-xs);
+        }
+        .menu-card-price {
+          font-size: 1.125rem;
+        }
+      }
+
+      /* ===== ACCESSIBILITY ===== */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+      :focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- ===== HEADER ===== -->
+      <header class="header" id="header" role="banner">
+        <div class="container header-inner">
+          <a href="#" class="logo" data-page="home">Aurum<span>.</span></a>
+          <nav class="nav" role="navigation" aria-label="Main navigation">
+            <ul class="nav-list" id="navList" role="menubar">
+              <li role="none">
+                <a
+                  href="#"
+                  class="nav-link active"
+                  data-page="home"
+                  role="menuitem"
+                  >Home</a
+                >
+              </li>
+              <li role="none">
+                <a href="#" class="nav-link" data-page="about" role="menuitem"
+                  >About</a
+                >
+              </li>
+              <li role="none">
+                <a href="#" class="nav-link" data-page="menu" role="menuitem"
+                  >Menu</a
+                >
+              </li>
+              <li role="none">
+                <a href="#" class="nav-link" data-page="contact" role="menuitem"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+            <button
+              class="nav-toggle"
+              id="navToggle"
+              aria-label="Toggle navigation menu"
+              aria-expanded="false"
+              aria-controls="navList"
+              role="button"
+            >
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <!-- ===== PAGES ===== -->
+      <!-- HOME PAGE -->
+      <main class="page active" id="page-home" role="main" aria-label="Home">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="container hero-content">
+            <span class="label">Fine Dining Since 2018</span>
+            <h1 class="heading-1" id="hero-title">
+              Where Culinary Art Meets Excellence
+            </h1>
+            <p class="body-lg">
+              Experience an unforgettable journey of flavors crafted by
+              award-winning chefs using locally sourced, seasonal ingredients in
+              an elegant atmosphere.
+            </p>
+            <div class="hero-buttons">
+              <a href="#" class="btn btn-primary btn-lg" data-page="menu"
+                >Explore Our Menu</a
+              >
+              <a
+                href="#"
+                class="btn btn-outline btn-lg"
+                data-page="contact"
+                style="border-color: #fff; color: #fff"
+                >Reserve a Table</a
+              >
+            </div>
+          </div>
+          <div class="scroll-indicator" aria-hidden="true">
+            <span>Scroll to discover</span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+        </section>
+
+        <section class="section features" aria-labelledby="features-title">
+          <div class="container">
+            <header class="section-header">
+              <span class="label">Our Promise</span>
+              <h2 class="heading-2" id="features-title">
+                Crafted with Passion, Served with Pride
+              </h2>
+            </header>
+            <div class="grid features-grid">
+              <article class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                    />
+                  </svg>
+                </div>
+                <h3 class="heading-3">Farm to Table</h3>
+                <p class="body-sm">
+                  We partner with local farmers and artisans to bring you the
+                  freshest seasonal ingredients, harvested at peak flavor.
+                </p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                </div>
+                <h3 class="heading-3">Award Winning</h3>
+                <p class="body-sm">
+                  Recognized by Michelin Guide and James Beard Foundation for
+                  culinary excellence and innovative gastronomy.
+                </p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <h3 class="heading-3">Prime Location</h3>
+                <p class="body-sm">
+                  Nestled in the historic district with panoramic city views,
+                  offering an intimate setting for every occasion.
+                </p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </div>
+                <h3 class="heading-3">Private Events</h3>
+                <p class="body-sm">
+                  Elegant private dining rooms for celebrations, corporate
+                  gatherings, and intimate occasions up to 50 guests.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- ABOUT PAGE -->
+      <main class="page" id="page-about" role="main" aria-label="About" hidden>
+        <section class="section about" aria-labelledby="about-title">
+          <div class="container">
+            <div class="grid about-grid">
+              <div class="about-image">
+                <img
+                  src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80"
+                  alt="Chef preparing a signature dish in the Aurum kitchen"
+                  loading="lazy"
+                />
+              </div>
+              <div class="about-content">
+                <span class="label">Our Story</span>
+                <h2 class="heading-2" id="about-title">
+                  A Legacy of Culinary Excellence
+                </h2>
+                <p class="body-lg">
+                  Founded in 2018 by Chef Marcus Aurelius, Aurum was born from a
+                  vision to elevate dining into an art form. With over two
+                  decades of experience in Michelin-starred kitchens across
+                  Europe, Chef Marcus brings a philosophy rooted in respect for
+                  ingredients, technique, and the guest experience.
+                </p>
+                <p class="body-lg">
+                  Every dish tells a story — of the farmer who grew the
+                  vegetables, the fisherman who caught the seafood, the artisan
+                  who aged the cheese. We honor these stories by letting
+                  ingredients shine through thoughtful preparation and artistic
+                  presentation.
+                </p>
+                <div class="about-stats">
+                  <div class="stat">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Michelin Star</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Local Partners</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Wine Labels</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Course Tasting</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="section"
+          style="background: var(--color-bg)"
+          aria-labelledby="team-title"
+        >
+          <div class="container">
+            <header class="section-header">
+              <span class="label">Meet the Team</span>
+              <h2 class="heading-2" id="team-title">
+                The Artists Behind the Experience
+              </h2>
+            </header>
+            <div class="grid features-grid">
+              <article
+                class="feature-card"
+                style="text-align: left; padding: var(--space-lg)"
+              >
+                <div
+                  style="
+                    width: 80px;
+                    height: 80px;
+                    border-radius: var(--radius-full);
+                    background: linear-gradient(
+                      135deg,
+                      var(--color-primary),
+                      var(--color-primary-light)
+                    );
+                    margin-bottom: var(--space-md);
+                  "
+                ></div>
+                <h3 class="heading-3">Marcus Aurelius</h3>
+                <p
+                  class="body-sm"
+                  style="
+                    color: var(--color-primary);
+                    margin-bottom: var(--space-xs);
+                  "
+                >
+                  Executive Chef & Owner
+                </p>
+                <p class="body-sm">
+                  Formerly of Alain Ducasse and The Fat Duck. James Beard Award
+                  winner 2022.
+                </p>
+              </article>
+              <article
+                class="feature-card"
+                style="text-align: left; padding: var(--space-lg)"
+              >
+                <div
+                  style="
+                    width: 80px;
+                    height: 80px;
+                    border-radius: var(--radius-full);
+                    background: linear-gradient(
+                      135deg,
+                      var(--color-primary),
+                      var(--color-primary-light)
+                    );
+                    margin-bottom: var(--space-md);
+                  "
+                ></div>
+                <h3 class="heading-3">Isabella Rossi</h3>
+                <p
+                  class="body-sm"
+                  style="
+                    color: var(--color-primary);
+                    margin-bottom: var(--space-xs);
+                  "
+                >
+                  Chef de Cuisine
+                </p>
+                <p class="body-sm">
+                  Specialist in modern Italian technique. Trained at Osteria
+                  Francescana.
+                </p>
+              </article>
+              <article
+                class="feature-card"
+                style="text-align: left; padding: var(--space-lg)"
+              >
+                <div
+                  style="
+                    width: 80px;
+                    height: 80px;
+                    border-radius: var(--radius-full);
+                    background: linear-gradient(
+                      135deg,
+                      var(--color-primary),
+                      var(--color-primary-light)
+                    );
+                    margin-bottom: var(--space-md);
+                  "
+                ></div>
+                <h3 class="heading-3">James Chen</h3>
+                <p
+                  class="body-sm"
+                  style="
+                    color: var(--color-primary);
+                    margin-bottom: var(--space-xs);
+                  "
+                >
+                  Sommelier
+                </p>
+                <p class="body-sm">
+                  Advanced Sommelier, Court of Master Sommeliers. Curates 500+
+                  bottle cellar.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- MENU PAGE -->
+      <main class="page" id="page-menu" role="main" aria-label="Menu" hidden>
+        <section class="section menu" aria-labelledby="menu-title">
+          <div class="container">
+            <header class="section-header">
+              <span class="label">Our Offerings</span>
+              <h2 class="heading-2" id="menu-title">Seasonal Menus</h2>
+              <p class="body-lg">
+                Our menus evolve with the seasons, showcasing the finest
+                ingredients at their peak.
+              </p>
+            </header>
+
+            <div class="menu-tabs" role="tablist" aria-label="Menu categories">
+              <button
+                class="menu-tab active"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-tasting"
+                id="tab-tasting"
+                data-tab="tasting"
+              >
+                Tasting Menu
+              </button>
+              <button
+                class="menu-tab"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-a-la-carte"
+                id="tab-a-la-carte"
+                data-tab="a-la-carte"
+              >
+                À La Carte
+              </button>
+              <button
+                class="menu-tab"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-wine"
+                id="tab-wine"
+                data-tab="wine"
+              >
+                Wine Pairing
+              </button>
+              <button
+                class="menu-tab"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-private"
+                id="tab-private"
+                data-tab="private"
+              >
+                Private Dining
+              </button>
+            </div>
+
+            <!-- Tasting Menu -->
+            <div
+              class="menu-item active"
+              id="panel-tasting"
+              role="tabpanel"
+              aria-labelledby="tab-tasting"
+            >
+              <div class="grid menu-grid">
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80"
+                      alt="Amuse-bouche: compressed watermelon with feta and mint"
+                      loading="lazy"
+                    /><span class="menu-card-badge">Signature</span>
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Amuse-Bouche</h3>
+                      <span class="menu-card-price">Included</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Compressed watermelon, whipped feta, mint oil, toasted
+                      pine nuts
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=1200&q=80"
+                      alt="Hokkaido scallop crudo with yuzu and caviar"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Hokkaido Scallop Crudo</h3>
+                      <span class="menu-card-price">Course 1</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Yuzu kosho vinaigrette, oscietra caviar, shiso, cucumber
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=1200&q=80"
+                      alt="Lobster ravioli with saffron butter sauce"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Lobster Ravioli</h3>
+                      <span class="menu-card-price">Course 3</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      House-made pasta, saffron beurre blanc, chives, lemon zest
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80"
+                      alt="Wagyu beef with truffle potato puree"
+                      loading="lazy"
+                    /><span class="menu-card-badge">Signature</span>
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">A5 Wagyu Striploin</h3>
+                      <span class="menu-card-price">Course 5</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Truffle potato purée, charred broccolini, red wine
+                      reduction
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=80"
+                      alt="Dark chocolate tart with gold leaf"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Dark Chocolate Tart</h3>
+                      <span class="menu-card-price">Course 7</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      70% Valrhona, salted caramel, gold leaf, vanilla bean ice
+                      cream
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80"
+                      alt="Petit fours and coffee service"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Petit Fours & Coffee</h3>
+                      <span class="menu-card-price">Course 8</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Seasonal selection with single-origin espresso or tea
+                      service
+                    </p>
+                  </div>
+                </article>
+              </div>
+              <div style="text-align: center; margin-top: var(--space-xl)">
+                <span class="label">8-Course Experience</span>
+                <p class="body-lg" style="margin-top: var(--space-sm)">
+                  <strong>$185</strong> per person · <strong>$295</strong> with
+                  wine pairing
+                </p>
+              </div>
+            </div>
+
+            <!-- À La Carte -->
+            <div
+              class="menu-item"
+              id="panel-a-la-carte"
+              role="tabpanel"
+              aria-labelledby="tab-a-la-carte"
+              hidden
+            >
+              <div class="grid menu-grid">
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&q=80"
+                      alt="Burrata with heirloom tomatoes"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">
+                        Burrata & Heirloom Tomatoes
+                      </h3>
+                      <span class="menu-card-price">$24</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Basil oil, aged balsamic, grilled sourdough
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=1200&q=80"
+                      alt="Beef tartare with quail egg"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Beef Tartare</h3>
+                      <span class="menu-card-price">$28</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Hand-cut prime beef, quail egg yolk, capers, shallots,
+                      truffle chips
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=1200&q=80"
+                      alt="Pan-seared branzino"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Pan-Seared Branzino</h3>
+                      <span class="menu-card-price">$42</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Fennel purée, olive tapenade, cherry tomatoes, herb salad
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=80"
+                      alt="Duck breast with cherry sauce"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Duck Breast</h3>
+                      <span class="menu-card-price">$48</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Cherry gastrique, parsnip purée, Swiss chard, duck jus
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=1200&q=80"
+                      alt="Risotto with wild mushrooms"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Wild Mushroom Risotto</h3>
+                      <span class="menu-card-price">$36</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Carnaroli rice, porcini, chanterelles, parmesan, truffle
+                      oil
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=80"
+                      alt="Chocolate soufflé"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Grand Marnier Soufflé</h3>
+                      <span class="menu-card-price">$18</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Orange zest, vanilla crème anglaise (allow 20 minutes)
+                    </p>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <!-- Wine Pairing -->
+            <div
+              class="menu-item"
+              id="panel-wine"
+              role="tabpanel"
+              aria-labelledby="tab-wine"
+              hidden
+            >
+              <div class="grid menu-grid">
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1200&q=80"
+                      alt="Champagne service"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Champagne Brut</h3>
+                      <span class="menu-card-price">$18 / $95</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Pierre Gimonnet, Cuis 1er Cru — crisp, mineral, perfect
+                      aperitif
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1559059314-311a1b3e0f33?auto=format&fit=crop&w=1200&q=80"
+                      alt="White wine"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Chablis 1er Cru</h3>
+                      <span class="menu-card-price">$22 / $110</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Domaine Vocoret, Montmains — flinty, citrus, pairs with
+                      scallops
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1200&q=80"
+                      alt="Red wine"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Pinot Noir</h3>
+                      <span class="menu-card-price">$24 / $120</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Domaine Serene, Yamhill Cuvée — red fruit, earth, ideal
+                      for duck
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1559059314-311a1b3e0f33?auto=format&fit=crop&w=1200&q=80"
+                      alt="Dessert wine"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Sauternes</h3>
+                      <span class="menu-card-price">$28 / 3oz</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Château d'Yquem 2015 — honey, apricot, perfect with
+                      chocolate
+                    </p>
+                  </div>
+                </article>
+              </div>
+              <div style="text-align: center; margin-top: var(--space-xl)">
+                <p class="body-lg">
+                  Sommelier-curated pairings available for all menus.
+                  <a
+                    href="#"
+                    data-page="contact"
+                    style="color: var(--color-primary); font-weight: 600"
+                    >Inquire about cellar selections</a
+                  >.
+                </p>
+              </div>
+            </div>
+
+            <!-- Private Dining -->
+            <div
+              class="menu-item"
+              id="panel-private"
+              role="tabpanel"
+              aria-labelledby="tab-private"
+              hidden
+            >
+              <div class="grid menu-grid">
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80"
+                      alt="Private dining room"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">The Gold Room</h3>
+                      <span class="menu-card-price">$2,500+</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Seats up to 16. Dedicated service, custom menu, AV
+                      equipment, city views
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80"
+                      alt="Chef's table kitchen view"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Chef's Table</h3>
+                      <span class="menu-card-price">$350/person</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Seats 8-10. Kitchen counter seating, 10-course tasting
+                      with chef interaction
+                    </p>
+                  </div>
+                </article>
+                <article class="menu-card">
+                  <div class="menu-card-image">
+                    <img
+                      src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80"
+                      alt="Garden terrace"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-card-content">
+                    <div class="menu-card-header">
+                      <h3 class="menu-card-title">Garden Terrace</h3>
+                      <span class="menu-card-price">$3,000+</span>
+                    </div>
+                    <p class="menu-card-desc">
+                      Seats up to 30. Seasonal outdoor space, retractable roof,
+                      custom cocktail menu
+                    </p>
+                  </div>
+                </article>
+              </div>
+              <div style="text-align: center; margin-top: var(--space-xl)">
+                <a href="#" class="btn btn-primary btn-lg" data-page="contact"
+                  >Inquire About Private Events</a
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- CONTACT PAGE -->
+      <main
+        class="page"
+        id="page-contact"
+        role="main"
+        aria-label="Contact"
+        hidden
+      >
+        <section class="section contact" aria-labelledby="contact-title">
+          <div class="container">
+            <header
+              class="section-header"
+              style="
+                text-align: left;
+                margin-bottom: var(--space-xl);
+                max-width: none;
+              "
+            >
+              <span class="label">Get in Touch</span>
+              <h2 class="heading-2" id="contact-title">
+                Reserve Your Experience
+              </h2>
+            </header>
+
+            <div class="grid contact-grid">
+              <div class="contact-info">
+                <h2 class="heading-2" style="text-align: left">
+                  We'd Love to Hear From You
+                </h2>
+                <p class="body-lg">
+                  Whether you're planning a romantic dinner, a celebration, or a
+                  corporate event, our team is here to create an unforgettable
+                  experience.
+                </p>
+
+                <div class="contact-details">
+                  <div class="contact-detail">
+                    <div class="contact-detail-icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                        />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                    </div>
+                    <div class="contact-detail-text">
+                      <h4>Visit Us</h4>
+                      <p>
+                        128 Aurelius Avenue<br />Historic District, NY 10014
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="contact-detail">
+                    <div class="contact-detail-icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="contact-detail-text">
+                      <h4>Call Us</h4>
+                      <p>+1 (212) 555-0187<br />Daily 11am – 11pm</p>
+                    </div>
+                  </div>
+
+                  <div class="contact-detail">
+                    <div class="contact-detail-icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="M22 6L12 13L2 6" />
+                      </svg>
+                    </div>
+                    <div class="contact-detail-text">
+                      <h4>Email Us</h4>
+                      <p>reservations@aurum.nyc<br />events@aurum.nyc</p>
+                    </div>
+                  </div>
+
+                  <div class="contact-detail">
+                    <div class="contact-detail-icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                    </div>
+                    <div class="contact-detail-text">
+                      <h4>Hours</h4>
+                      <p>
+                        Tue–Thu: 5:30pm – 10pm<br />Fri–Sat: 5:30pm – 11pm<br />Sun–Mon:
+                        Closed
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-form-container">
+                <form
+                  id="contactForm"
+                  novalidate
+                  aria-label="Reservation and inquiry form"
+                >
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="firstName"
+                        >First Name *</label
+                      >
+                      <input
+                        type="text"
+                        class="form-input"
+                        id="firstName"
+                        name="firstName"
+                        required
+                        autocomplete="given-name"
+                        aria-required="true"
+                        aria-describedby="firstName-error"
+                      />
+                      <p class="form-error" id="firstName-error" role="alert">
+                        Please enter your first name
+                      </p>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="lastName"
+                        >Last Name *</label
+                      >
+                      <input
+                        type="text"
+                        class="form-input"
+                        id="lastName"
+                        name="lastName"
+                        required
+                        autocomplete="family-name"
+                        aria-required="true"
+                        aria-describedby="lastName-error"
+                      />
+                      <p class="form-error" id="lastName-error" role="alert">
+                        Please enter your last name
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="email">Email *</label>
+                      <input
+                        type="email"
+                        class="form-input"
+                        id="email"
+                        name="email"
+                        required
+                        autocomplete="email"
+                        aria-required="true"
+                        aria-describedby="email-error"
+                      />
+                      <p class="form-error" id="email-error" role="alert">
+                        Please enter a valid email address
+                      </p>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="phone">Phone *</label>
+                      <input
+                        type="tel"
+                        class="form-input"
+                        id="phone"
+                        name="phone"
+                        required
+                        autocomplete="tel"
+                        aria-required="true"
+                        aria-describedby="phone-error"
+                      />
+                      <p class="form-error" id="phone-error" role="alert">
+                        Please enter a valid phone number
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="date"
+                        >Preferred Date *</label
+                      >
+                      <input
+                        type="date"
+                        class="form-input"
+                        id="date"
+                        name="date"
+                        required
+                        aria-required="true"
+                        aria-describedby="date-error"
+                      />
+                      <p class="form-error" id="date-error" role="alert">
+                        Please select a date
+                      </p>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="time"
+                        >Preferred Time *</label
+                      >
+                      <input
+                        type="time"
+                        class="form-input"
+                        id="time"
+                        name="time"
+                        required
+                        aria-required="true"
+                        aria-describedby="time-error"
+                      />
+                      <p class="form-error" id="time-error" role="alert">
+                        Please select a time
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="guests"
+                        >Number of Guests *</label
+                      >
+                      <select
+                        class="form-input"
+                        id="guests"
+                        name="guests"
+                        required
+                        aria-required="true"
+                        aria-describedby="guests-error"
+                      >
+                        <option value="">Select guests</option>
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5 Guests</option>
+                        <option value="6">6 Guests</option>
+                        <option value="7">7 Guests</option>
+                        <option value="8">8 Guests</option>
+                        <option value="9">9 Guests</option>
+                        <option value="10">10 Guests</option>
+                        <option value="11">11 Guests</option>
+                        <option value="12">12 Guests</option>
+                        <option value="13">13 Guests</option>
+                        <option value="14">14 Guests</option>
+                        <option value="15">15 Guests</option>
+                        <option value="16">16 Guests</option>
+                        <option value="17">17 Guests</option>
+                        <option value="18">18 Guests</option>
+                        <option value="19">19 Guests</option>
+                        <option value="20">20 Guests</option>
+                      </select>
+                      <p class="form-error" id="guests-error" role="alert">
+                        Please select number of guests
+                      </p>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="occasion">Occasion</label>
+                      <select class="form-input" id="occasion" name="occasion">
+                        <option value="">Select occasion</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="birthday">Birthday</option>
+                        <option value="anniversary">Anniversary</option>
+                        <option value="business">Business</option>
+                        <option value="wedding">Wedding</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="message"
+                      >Special Requests</label
+                    >
+                    <textarea
+                      class="form-textarea"
+                      id="message"
+                      name="message"
+                      placeholder="Dietary restrictions, allergies, special occasions, or other requests..."
+                      aria-describedby="message-error"
+                    ></textarea>
+                    <p class="form-error" id="message-error" role="alert">
+                      Please enter your message
+                    </p>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="btn btn-primary form-submit btn-lg"
+                  >
+                    Submit Reservation Request
+                  </button>
+                </form>
+
+                <div
+                  class="form-success"
+                  id="formSuccess"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                  <h3 class="heading-3">Thank You!</h3>
+                  <p class="body-lg" style="margin-top: var(--space-sm)">
+                    Your reservation request has been received. Our team will
+                    contact you within 24 hours to confirm your table.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- ===== FOOTER ===== -->
+      <footer class="footer" role="contentinfo">
+        <div class="container">
+          <div class="grid footer-grid">
+            <div class="footer-brand">
+              <a href="#" class="logo" data-page="home">Aurum<span>.</span></a>
+              <p>
+                Where culinary art meets excellence. An unforgettable dining
+                experience in the heart of the city.
+              </p>
+            </div>
+
+            <div class="footer-links">
+              <div class="footer-column">
+                <h4>Explore</h4>
+                <a href="#" data-page="home">Home</a>
+                <a href="#" data-page="about">Our Story</a>
+                <a href="#" data-page="menu">Menu</a>
+                <a href="#" data-page="contact">Reservations</a>
+              </div>
+
+              <div class="footer-column">
+                <h4>Contact</h4>
+                <a href="tel:+12125550187">+1 (212) 555-0187</a>
+                <a href="mailto:reservations@aurum.nyc"
+                  >reservations@aurum.nyc</a
+                >
+                <a href="#" data-page="contact">128 Aurelius Avenue</a>
+              </div>
+
+              <div class="footer-column">
+                <h4>Hours</h4>
+                <p>Tue–Thu: 5:30pm – 10pm</p>
+                <p>Fri–Sat: 5:30pm – 11pm</p>
+                <p>Sun–Mon: Closed</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <span>© 2024 Aurum Restaurant. All rights reserved.</span>
+            <div class="social-links">
+              <a href="#" aria-label="Instagram">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+              <a href="#" aria-label="Facebook">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                  />
+                </svg>
+              </a>
+              <a href="#" aria-label="Twitter">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (() => {
+        "use strict";
+
+        const header = document.getElementById("header");
+        const navToggle = document.getElementById("navToggle");
+        const navList = document.getElementById("navList");
+        const navLinks = document.querySelectorAll("[data-page]");
+        const pages = document.querySelectorAll(".page");
+
+        function showPage(pageName) {
+          pages.forEach((page) => {
+            const isActive = page.id === `page-${pageName}`;
+
+            page.classList.toggle("active", isActive);
+
+            if (isActive) {
+              page.removeAttribute("hidden");
+            } else {
+              page.setAttribute("hidden", "");
+            }
+          });
+
+          document.querySelectorAll(".nav-link").forEach((link) => {
+            link.classList.toggle("active", link.dataset.page === pageName);
+          });
+
+          navList.classList.remove("open");
+          navToggle.classList.remove("active");
+          navToggle.setAttribute("aria-expanded", "false");
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", (event) => {
+            const pageName = link.dataset.page;
+
+            if (!pageName) return;
+
+            event.preventDefault();
+            showPage(pageName);
+          });
+        });
+
+        navToggle.addEventListener("click", () => {
+          const isOpen = navList.classList.toggle("open");
+
+          navToggle.classList.toggle("active", isOpen);
+          navToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        document.addEventListener("click", (event) => {
+          if (
+            navList.classList.contains("open") &&
+            !navList.contains(event.target) &&
+            !navToggle.contains(event.target)
+          ) {
+            navList.classList.remove("open");
+            navToggle.classList.remove("active");
+            navToggle.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        window.addEventListener(
+          "scroll",
+          () => {
+            header.classList.toggle("scrolled", window.scrollY > 20);
+          },
+          { passive: true },
+        );
+
+        /* ===== MENU TABS ===== */
+        const menuTabs = document.querySelectorAll(".menu-tab");
+        const menuPanels = document.querySelectorAll(".menu-item");
+
+        menuTabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const target = tab.dataset.tab;
+
+            menuTabs.forEach((item) => {
+              const isSelected = item === tab;
+
+              item.classList.toggle("active", isSelected);
+              item.setAttribute("aria-selected", String(isSelected));
+            });
+
+            menuPanels.forEach((panel) => {
+              const isActive = panel.id === `panel-${target}`;
+
+              panel.classList.toggle("active", isActive);
+
+              if (isActive) {
+                panel.removeAttribute("hidden");
+              } else {
+                panel.setAttribute("hidden", "");
+              }
+            });
+          });
+        });
+
+        /* ===== CONTACT FORM VALIDATION ===== */
+        const contactForm = document.getElementById("contactForm");
+        const formSuccess = document.getElementById("formSuccess");
+
+        if (contactForm) {
+          const validators = {
+            firstName: (value) => value.trim().length >= 2,
+            lastName: (value) => value.trim().length >= 2,
+            email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+            phone: (value) => /^[+]?[\d\s()-]{7,}$/.test(value),
+            date: (value) => Boolean(value),
+            time: (value) => Boolean(value),
+            guests: (value) => Boolean(value),
+          };
+
+          function setFieldError(fieldName, hasError) {
+            const field = document.getElementById(fieldName);
+            const error = document.getElementById(`${fieldName}-error`);
+
+            if (!field || !error) return;
+
+            field.classList.toggle("error", hasError);
+            error.classList.toggle("visible", hasError);
+
+            if (hasError) {
+              field.setAttribute("aria-invalid", "true");
+            } else {
+              field.removeAttribute("aria-invalid");
+            }
+          }
+
+          contactForm
+            .querySelectorAll("input, select, textarea")
+            .forEach((field) => {
+              field.addEventListener("blur", () => {
+                if (validators[field.name]) {
+                  setFieldError(
+                    field.name,
+                    !validators[field.name](field.value),
+                  );
+                }
+              });
+
+              field.addEventListener("input", () => {
+                if (
+                  field.classList.contains("error") &&
+                  validators[field.name]
+                ) {
+                  setFieldError(
+                    field.name,
+                    !validators[field.name](field.value),
+                  );
+                }
+              });
+            });
+
+          contactForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            let isValid = true;
+
+            Object.keys(validators).forEach((fieldName) => {
+              const field = document.getElementById(fieldName);
+
+              if (!field) return;
+
+              const valid = validators[fieldName](field.value);
+
+              setFieldError(fieldName, !valid);
+
+              if (!valid) {
+                isValid = false;
+              }
+            });
+
+            if (!isValid) {
+              const firstError = contactForm.querySelector(".form-input.error");
+
+              if (firstError) {
+                firstError.focus();
+              }
+
+              return;
+            }
+
+            contactForm.style.display = "none";
+            formSuccess.classList.add("visible");
+          });
+        }
+
+        /* ===== KEYBOARD ACCESSIBILITY ===== */
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            navList.classList.remove("open");
+            navToggle.classList.remove("active");
+            navToggle.setAttribute("aria-expanded", "false");
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
