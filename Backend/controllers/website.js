@@ -3,7 +3,7 @@ const { masterPrompt } = require("../constants/constants");
 const User = require("../models/user");
 const Website = require("../models/website");
 const extractJson = require("../utils/extractJson");
-
+const mongoose = require("mongoose");
 const generateWebsite = async (req, res) => {
   try {
     console.log("1 - generateWebsite API Called");
@@ -137,7 +137,7 @@ const generateWebsite = async (req, res) => {
 
     console.log("8.1 - Generated code length:", parsed.code.length);
 
-    console.log("9 - Saving Website Info...")
+    console.log("9 - Saving Website Info...");
     const website = await Website.create({
       user: user._id,
       title: prompt.slice(0, 60),
@@ -157,23 +157,22 @@ const generateWebsite = async (req, res) => {
 
     user.credits = user.credits - 0.5;
     console.log("10 - user credit deducted");
-    
+
     await user.save();
     console.log("10.1 - User Credits Saved");
-
 
     return res.status(201).json({
       websiteId: website._id,
       remainingCredits: user.credits,
     });
   } catch (error) {
-    console.log(`generate website error ${error}`)
+    console.log(`generate website error ${error}`);
     return res.status(500).json({ message: `generate website error ${error}` });
   }
 };
 
 const generateWebsiteDemo = async (req, res) => {
-   try {
+  try {
     console.log("1 - generateWebsite API Called");
 
     const { prompt } = req.body;
@@ -186,7 +185,7 @@ const generateWebsiteDemo = async (req, res) => {
       });
     }
     console.log("1.2 - Prompt received");
-    const user = await User.findOne({email: "uttambarve007@gmail.com"});
+    const user = await User.findOne({ email: "uttambarve007@gmail.com" });
 
     if (!user) {
       return res.status(400).json({ message: "user not found" });
@@ -305,7 +304,7 @@ const generateWebsiteDemo = async (req, res) => {
 
     console.log("8.1 - Generated code length:", parsed.code.length);
 
-    console.log("9 - Saving Website Info...")
+    console.log("9 - Saving Website Info...");
     const website = await Website.create({
       user: user._id,
       title: prompt.slice(0, 60),
@@ -325,22 +324,47 @@ const generateWebsiteDemo = async (req, res) => {
 
     user.credits = user.credits - 0.5;
     console.log("10 - user credit deducted");
-    
+
     await user.save();
     console.log("10.1 - User Credits Saved");
-
 
     return res.status(201).json({
       websiteId: website._id,
       remainingCredits: user.credits,
     });
   } catch (error) {
-    console.log(`generate website error ${error}`)
+    console.log(`generate website error ${error}`);
     return res.status(500).json({ message: `generate website error ${error}` });
+  }
+};
+
+const getWebsiteById = async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid website ID",
+      });
+    }
+
+    const website = await Website.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!website) {
+      return res.status(404).json({ message: "website not found" });
+    }
+
+    return res.status(200).json(website);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `get website by id error ${error}` });
   }
 };
 
 module.exports = {
   generateWebsiteDemo,
   generateWebsite,
+  getWebsiteById
 };
