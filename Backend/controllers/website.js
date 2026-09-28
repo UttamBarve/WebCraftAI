@@ -243,6 +243,7 @@ const generateWebsiteDemo = async (req, res) => {
 
       console.log("5.4 - First JSON extraction completed");
     }
+    console.log("5.5 - Generated code length:", parsed.code.length);
 
     // =========================
     // SECOND ATTEMPT
