@@ -4,9 +4,30 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { useState } from "react";
 import axios from "axios";
+import api from "@/service/api";
 
 const Generate = () => {
   const navigate = useNavigate();
+  const [prompt, setPrompt] = useState("");
+
+  const handleGenerateWebsite = async () => {
+    // setLoading(true);
+    try {
+      const result = await api.post(
+        `/v0/website/generate`,
+        { prompt },
+      );
+      console.log(result);
+      // setProgress(100);
+      // setLoading(false);
+      // navigate(`/editor/${result.data.websiteId}`);
+    } catch (error) {
+      // setLoading(false);
+      // setError(error.response.data.message || "something went wrong");
+      console.log(error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-br from-[#050505] via-[#0b0b0b] to-[#050505] text-white">
       <div className="sticky top-0 z-40 backdrop-blur-xl bg-black/50 border-b border-white/10">
@@ -47,8 +68,8 @@ const Generate = () => {
           
           <div className="relative">
             <textarea
-              // onChange={(e) => setPrompt(e.target.value)}
-              // value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              value={prompt}
               placeholder="Describe your website in detail..."
               className="w-[70vw] h-50  p-6 rounded-3xl bg-black/60 border border-white/10 outline-none resize-none text-sm leading-relaxed focus:ring-2 focus:ring-white/20"
             ></textarea>
@@ -62,7 +83,7 @@ const Generate = () => {
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.96 }}
-                        // onClick={handleGenerateWebsite}
+                        onClick={handleGenerateWebsite}
                         // disabled={!prompt.trim() && loading}
                         // className={`px-14 py-4 rounded-2xl font-semibold text-lg ${prompt.trim() && !loading
                             // ? "bg-white text-black"

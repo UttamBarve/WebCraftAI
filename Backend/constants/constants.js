@@ -1,3 +1,14 @@
+// const masterPrompt = `{USER_PROMPT}
+// OUTPUT FORMAT (RAW JSON ONLY)
+// --------------------------------------------------
+// {
+//   "message": "Short professional confirmation sentence",
+//   "code": "<FULL VALID HTML DOCUMENT>"
+// }`;
+
+
+
+
 const masterPrompt = `
 YOU ARE A PRINCIPAL FRONTEND ARCHITECT
 AND A SENIOR UI/UX ENGINEER

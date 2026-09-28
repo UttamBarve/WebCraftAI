@@ -3,7 +3,7 @@ const { generateWebsiteDemo, generateWebsite } = require('../controllers/website
 
 const router = express.Router();
 
-router.get("/generateDemo", generateWebsiteDemo);
-router.get("/generate", generateWebsite);
+router.post("/generateDemo", generateWebsiteDemo);
+router.post("/generate", generateWebsite);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const generateResponse = require("../config/openRouter");
 const { masterPrompt } = require("../constants/constants");
 const User = require("../models/user");
+const Website = require("../models/website");
 const extractJson = require("../utils/extractJson");
 
 const generateWebsite = async (req, res) => {
@@ -16,12 +17,12 @@ const generateWebsite = async (req, res) => {
         message: "prompt is required",
       });
     }
-
     console.log("1.2 - Prompt received");
+    const user = await User.findById(req.user._id);
 
-    const user = await User.findOne({
-      email: "uttambarve007@gmail.com",
-    });
+    if (!user) {
+      return res.status(400).json({ message: "user not found" });
+    }
 
     console.log("2 - User fetched");
 
@@ -136,11 +137,7 @@ const generateWebsite = async (req, res) => {
 
     console.log("8.1 - Generated code length:", parsed.code.length);
 
-    console.log("9 - Sending response");
-
-    res.send(parsed);
-
-    console.log("10 - Response sent successfully");
+    console.log("9 - Saving Website Info...")
     const website = await Website.create({
       user: user._id,
       title: prompt.slice(0, 60),
@@ -151,20 +148,26 @@ const generateWebsite = async (req, res) => {
           content: prompt,
         },
         {
-          role: "ai",
+          role: "model",
           content: parsed.message,
         },
       ],
     });
+    console.log("9.1 - Website Info Saved");
 
     user.credits = user.credits - 0.5;
+    console.log("10 - user credit deducted");
+    
     await user.save();
+    console.log("10.1 - User Credits Saved");
+
 
     return res.status(201).json({
       websiteId: website._id,
       remainingCredits: user.credits,
     });
   } catch (error) {
+    console.log(`generate website error ${error}`)
     return res.status(500).json({ message: `generate website error ${error}` });
   }
 };

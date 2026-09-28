@@ -29,7 +29,7 @@ const auth = async (req, res, next) => {
 
     // Attach user to request
     req.user = user;
-
+    console.log("---Auth Middleware---")
     next();
   } catch (error) {
     return res.status(401).json({
