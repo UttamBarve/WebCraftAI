@@ -17,7 +17,7 @@ THE OUTPUT MUST BE CLIENT-DELIVERABLE WITHOUT ANY MODIFICATION.
 
 --------------------------------------------------
 USER REQUIREMENT:
-{USER_PROMPT} : I want to create a website for my restaraunt.
+{USER_PROMPT}
 --------------------------------------------------
 
 GLOBAL QUALITY BAR (NON-NEGOTIABLE)
@@ -146,5 +146,4 @@ ABSOLUTE RULES
 - IF FORMAT IS BROKEN → RESPONSE IS INVALID
 `;
 
-
-module.exports = {masterPrompt}
+module.exports = { masterPrompt };

@@ -1,4 +1,5 @@
 const generateResponse = async (prompt) => {
+  console.log("got into generateResponse function... ")
   const openRouterAPI = process.env.OPENROUTER_API;
   const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL;
   const OPENROUTER_URL = process.env.OPENROUTER_URL;
@@ -9,9 +10,13 @@ const generateResponse = async (prompt) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: OPENROUTER_MODEL,
+      models: [
+        "qwen/qwen3-coder:free",
+        "cohere/north-mini-code:free",
+        "nvidia/nemotron-3-ultra-550b-a55b:free",
+      ],
       messages: [
-        { role: "system", content: "You must return ONLY valid raw JSON" },
+       
         {
           role: "user",
           content: prompt,
@@ -30,6 +35,4 @@ const generateResponse = async (prompt) => {
   return data;
 };
 
-
-
-module.exports = generateResponse
+module.exports = generateResponse;

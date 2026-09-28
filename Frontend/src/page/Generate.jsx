@@ -6,6 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const Generate = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-linear-to-br from-[#050505] via-[#0b0b0b] to-[#050505] text-white">
       <div className="sticky top-0 z-40 backdrop-blur-xl bg-black/50 border-b border-white/10">
@@ -15,7 +16,7 @@ const Generate = () => {
               className="p-2 rounded-lg hover:bg-white/10 transition"
               onClick={() => navigate("/")}
             >
-              <ArrowLeft size={16} />
+            <ArrowLeft size={16} />
             </button>
             <h1 className="text-lg font-semibold">
               WebCraft <span className="text-zinc-400">AI</span>
