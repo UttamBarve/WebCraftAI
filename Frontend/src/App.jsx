@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Dashboard from "./page/Dashboard";
 import Generate from "./page/Generate";
 import { useNavigate } from "react-router-dom";
+import Editor from "./page/Editor";
 
 const App = () => {
   useGetCurrentUser();
@@ -20,6 +21,7 @@ const App = () => {
           element={userData ? <Dashboard /> : <Home />}
         />
         <Route path="/generate" element={userData ? <Generate /> : <Home />} />
+        <Route path="/editor/:id" element={userData ? <Editor /> : <Home />} />
       </Routes>
     </BrowserRouter>
   );

@@ -21,7 +21,7 @@ app.use(cors({
  
 app.use("/api/v0/auth", authRouter);
 app.use("/api/v0/user", auth, userRouter);
-app.use("/api/v0/website", auth, websiteRouter);
+app.use("/api/v0/website", websiteRouter);
 const PORT = process.env.PORT || 8000;
 
 connectDB()
