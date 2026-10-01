@@ -29,7 +29,7 @@ const Editor = () => {
   const [error, setError] = useState("");
   const [code, setCode] = useState("");
   const [messages, setMessages] = useState([]);
-  // const [prompt, setPrompt] = useState("");
+  const [prompt, setPrompt] = useState("");
   const iframeRef = useRef(null);
   // const [updateLoading, setUpdateLoading] = useState(false);
   // const [thinkingIndex, setThinkingIndex] = useState(0);
@@ -43,7 +43,7 @@ const Editor = () => {
       try {
         const result = await api.get(`/v0/website/getWebsite/${id}`);
         setWebsite(result.data);
-        setCode(result.data.latestCode)
+        setCode(result.data.latestCode);
         setMessages(result.data.conversation);
         console.log(result);
       } catch (error) {
@@ -83,8 +83,49 @@ const Editor = () => {
     <div className="h-screen w-screen flex bg-black text-white overflow-hidden">
       <aside className="hidden lg:flex w-95 flex-col border-r border-white/10 bg-black/80">
         <EditorHeader onclose={null} website={website} />
-        <div>
-          <EditorChat messages={messages} />
+
+        <div className="flex h-full flex-col">
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+            {messages.map((m, i) => (
+              <div
+                key={i}
+                className={`max-w-[80%] ${
+                  m.role === "user" ? "ml-auto" : "mr-auto"
+                }`}
+              >
+                <div
+                  className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                    m.role === "user"
+                      ? "bg-amber-50 text-black"
+                      : "bg-white/5 border border-white/10 text-zinc-200"
+                  }`}
+                >
+                  {m.content}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Chat Input */}
+          <div className="shrink-0 p-3 ">
+            <div className="flex gap-2">
+              <input
+                placeholder="Describe Changes..."
+                className="flex-1 resize-none rounded-2xl px-4 py-3 bg-white/5 border border-white/10 text-sm outline-none"
+                onChange={(e) => setPrompt(e.target.value)}
+                value={prompt}
+              />
+
+              <button
+                className="px-4 py-3 rounded-2xl bg-white text-black"
+                // disabled={updateLoading}
+                // onClick={handleUpdate}
+              >
+                <Send size={14} />
+              </button>
+            </div>
+          </div>
         </div>
       </aside>
 

@@ -14,7 +14,7 @@ const Generate = () => {
     // setLoading(true);
     try {
       const result = await api.post(
-        `/v0/website/generate`,
+        `/v0/website/generateWebsite`,
         { prompt },
       );
       console.log(result);
