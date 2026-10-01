@@ -138,6 +138,7 @@ const generateWebsite = async (req, res) => {
     console.log("8.1 - Generated code length:", parsed.code.length);
 
     console.log("9 - Saving Website Info...");
+    const slug = `website-${new mongoose.Types.ObjectId().toString()}`;
     const website = await Website.create({
       user: user._id,
       title: prompt.slice(0, 60),
@@ -152,6 +153,7 @@ const generateWebsite = async (req, res) => {
           content: parsed.message,
         },
       ],
+      slug: slug,
     });
     console.log("9.1 - Website Info Saved");
 
@@ -306,6 +308,7 @@ const generateWebsiteDemo = async (req, res) => {
     console.log("8.1 - Generated code length:", parsed.code.length);
 
     console.log("9 - Saving Website Info...");
+    const slug = `website-${new mongoose.Types.ObjectId().toString()}`;
     const website = await Website.create({
       user: user._id,
       title: prompt.slice(0, 60),
@@ -320,6 +323,7 @@ const generateWebsiteDemo = async (req, res) => {
           content: parsed.message,
         },
       ],
+      slug: slug,
     });
     console.log("9.1 - Website Info Saved");
 
@@ -367,5 +371,5 @@ const getWebsiteById = async (req, res) => {
 module.exports = {
   generateWebsiteDemo,
   generateWebsite,
-  getWebsiteById
+  getWebsiteById,
 };
