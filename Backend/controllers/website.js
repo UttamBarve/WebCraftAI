@@ -143,7 +143,7 @@ const generateWebsite = async (req, res) => {
     const website = await Website.create({
       user: user._id,
       title: prompt.slice(0, 60),
-      latestCode: parsed.code,
+      latestCode: parsed.code.replace(/\\n/g, "\n").replace(/\\"/g, '"'),
       conversation: [
         {
           role: "user",
@@ -421,7 +421,7 @@ const updateWebsite = async (req, res) => {
     console.log("3 - Credits check passed");
     const finalPrompt = updatePrompt1
       .replace("USER_PROMPT", prompt)
-      .replace("CURRENT_CODE", website.latestCod);
+      .replace("CURRENT_CODE", website.latestCode);
     console.log("4 - Final prompt created");
 
     let raw = "";
@@ -533,7 +533,7 @@ const updateWebsite = async (req, res) => {
 
     return res.status(200).json({
       message: parsed.message,
-      code: parsed.code,
+      code: parsed.code.replace(/\\n/g, "\n").replace(/\\"/g, '"'),
       remainingCredits: user.credits,
     });
   } catch (error) {
@@ -551,12 +551,52 @@ const getAllWebsites = async (req, res) => {
   }
 };
 
+const saveWebsiteCode = async (req, res) => {
+  try {
+    const { code } = req.body;
 
+    // Validate code
+    if (!code) {
+      return res.status(400).json({
+        message: "Code is required",
+      });
+    }
+
+    // Find website belonging to logged-in user
+    const website = await Website.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!website) {
+      return res.status(404).json({
+        message: "Website not found",
+      });
+    }
+
+    // Save manually edited code
+    website.latestCode = code;
+
+    await website.save();
+
+    return res.status(200).json({
+      message: "Changes saved successfully",
+      code: website.latestCode,
+    });
+  } catch (error) {
+    console.log("Save website code error:", error);
+
+    return res.status(500).json({
+      message: `save website code error ${error.message}`,
+    });
+  }
+};
 
 module.exports = {
   generateWebsiteDemo,
   generateWebsite,
   getWebsiteById,
   updateWebsite,
-  getAllWebsites
+  getAllWebsites,
+  saveWebsiteCode
 };

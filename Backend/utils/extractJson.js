@@ -14,7 +14,6 @@ const extractJson = (text) => {
   }
 
   const jsonString = cleaned.slice(firstBrace, closeBrace + 1);
-
   try {
     return JSON.parse(jsonString);
   } catch (error) {

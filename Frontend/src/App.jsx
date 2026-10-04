@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import Dashboard from "./page/Dashboard";
 import Generate from "./page/Generate";
 import { useNavigate } from "react-router-dom";
-import Editor from "./page/Editor";
+import Editor from "./page/EditorPage";
 
 const App = () => {
   useGetCurrentUser();
