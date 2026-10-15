@@ -7,10 +7,18 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const auth = require("./middlewares/auth");
 const websiteRouter = require("./routes/website");
-const billingRouter = require("./routes/billing")
+const billingRouter = require("./routes/billing");
+const { stripeWebhook } = require("./controllers/stripeWebhook");
 dotenv.config();
 
 const app = express();
+
+app.post(
+  "/api/stripe/webhook",
+  express.raw({ type: "application/json" }),
+  stripeWebhook,
+);
+
 
 app.use(express.json());
 app.use(cookieParser());

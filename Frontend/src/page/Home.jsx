@@ -4,29 +4,30 @@ import Hero from "../components/Hero";
 import Cards from "../components/Cards";
 import Footer from "@/components/Footer";
 import LoginCard from "@/components/LoginCard";
-
+import { HomeWebsites } from "@/components/HomeWebsites";
 
 const Home = () => {
   const [openLogin, setOpenLogin] = useState(false);
-  
+
   return (
     <div className="relative min-h-screen bg-[#040404] text-white overflow-hidden">
       {/* Header */}
-      <Navbar onGetStarted={()=> setOpenLogin(true)} />
+      <Navbar onGetStarted={() => setOpenLogin(true)} />
 
       {/* Hero Section */}
-      <Hero onGetStarted={()=> setOpenLogin(true)} />
+      <Hero onGetStarted={() => setOpenLogin(true)} />
 
       {/* Cards */}
       <Cards />
+
+      {/* website Cards */}
+      <HomeWebsites />
 
       {/* Footer */}
       <Footer />
 
       {/* Login */}
-      {openLogin && (
-        <LoginCard onClose={() => setOpenLogin(false)}/>
-      )}
+      {openLogin && <LoginCard onClose={() => setOpenLogin(false)} />}
     </div>
   );
 };
