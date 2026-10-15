@@ -7,6 +7,8 @@ import Dashboard from "./page/Dashboard";
 import Generate from "./page/Generate";
 import { useNavigate } from "react-router-dom";
 import Editor from "./page/EditorPage";
+import LiveSite from "./page/LiveSite";
+import Pricing from "./page/Pricing";
 
 const App = () => {
   useGetCurrentUser();
@@ -22,6 +24,8 @@ const App = () => {
         />
         <Route path="/generate" element={userData ? <Generate /> : <Home />} />
         <Route path="/editor/:id" element={userData ? <Editor /> : <Home />} />
+        <Route path="/site/:id" element={<LiveSite />} />
+        <Route path="/pricing" element={<Pricing />} />
       </Routes>
     </BrowserRouter>
   );

@@ -8,6 +8,14 @@ OUTPUT FORMAT (RAW JSON ONLY)
 
 , give a html document which contain Script tag and style tag inside it.
 
+- Use high-quality images ONLY from:
+  https://images.unsplash.com/
+- EVERY image URL MUST include:
+  ?auto=format&fit=crop&w=1200&q=80
+- Navigation must switch pages using JS
+- Active nav state must update
+YOU BUILD HIGH-END, REAL-WORLD, PRODUCTION-GRADE WEBSITES
+
 `;
 
 const updatePrompt1 = `
@@ -124,7 +132,6 @@ NEVER GIVE ANY MESSAGE ABOUT CHANGES IN THE WEBSITE CODE, (FOR EXAMPLE NEVER WRI
 // - At least ONE page MUST be visible on initial load
 // - Hiding all content is INVALID
 
-
 // --------------------------------------------------
 // REQUIRED SPA PAGES
 // --------------------------------------------------
@@ -174,7 +181,6 @@ NEVER GIVE ANY MESSAGE ABOUT CHANGES IN THE WEBSITE CODE, (FOR EXAMPLE NEVER WRI
 // - NO extra text
 // - FORMAT MUST MATCH EXACTLY
 // - IF FORMAT IS BROKEN → RESPONSE IS INVALID
-
 
 // `;
 

@@ -113,6 +113,7 @@ const Navbar = ({ onGetStarted }) => {
               cursor-pointer
               group
             "
+            onClick={() => navigate("/pricing")}
           >
             Pricing
 

@@ -139,7 +139,13 @@ const generateWebsite = async (req, res) => {
     console.log("8.1 - Generated code length:", parsed.code.length);
 
     console.log("9 - Saving Website Info...");
-    const slug = `website-${new mongoose.Types.ObjectId().toString()}`;
+    const slug =
+      prompt
+        .slice(0, 60)
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "")
+        .slice(0, 60) + new mongoose.Types.ObjectId().toString().slice(-5);
+
     const website = await Website.create({
       user: user._id,
       title: prompt.slice(0, 60),
@@ -309,7 +315,13 @@ const generateWebsiteDemo = async (req, res) => {
     console.log("8.1 - Generated code length:", parsed.code.length);
 
     console.log("9 - Saving Website Info...");
-    const slug = `website-${new mongoose.Types.ObjectId().toString()}`;
+    const slug =
+      prompt
+        .slice(0, 60)
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "")
+        .slice(0, 60) + new mongoose.Types.ObjectId().toString().slice(-5);
+
     const website = await Website.create({
       user: user._id,
       title: prompt.slice(0, 60),
@@ -592,11 +604,62 @@ const saveWebsiteCode = async (req, res) => {
   }
 };
 
+const deployWebsite = async (req, res) => {
+  try {
+    console.log("got into deplyed website ")
+    const website = await Website.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!website) {
+      return res.status(400).json({ message: "website not found" });
+    }
+
+    if (!website.slug) {
+      website.slug =
+        website.title
+          .toLowerCase()
+          .replace(/[^a-z0-9]/g, "")
+          .slice(0, 60) + website._id.toString().slice(-5);
+    }
+
+    website.deployedUrl = `${process.env.FRONTEND_URL}/site/${website.slug}`;
+    console.log(website.deployedUrl)
+    website.deployed = true;
+    await website.save();
+    return res.status(200).json({
+      url: website.deployedUrl,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: `deploy website error ${error}` });
+  }
+};
+
+const getWebsiteBySlug = async (req, res) => {
+  try {
+    const website = await Website.findOne({
+      slug: req.params.slug,
+    });
+
+    if (!website) {
+      return res.status(400).json({ message: "website not found" });
+    }
+    return res.status(200).json(website);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `get by slug website error ${error}` });
+  }
+};
+
 module.exports = {
   generateWebsiteDemo,
   generateWebsite,
   getWebsiteById,
   updateWebsite,
   getAllWebsites,
-  saveWebsiteCode
+  saveWebsiteCode,
+  deployWebsite,
+  getWebsiteBySlug,
 };

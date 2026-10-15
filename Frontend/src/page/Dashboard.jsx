@@ -29,11 +29,10 @@ const Dashboard = () => {
     setCopiedId(site._id);
     setTimeout(() => setCopiedId(null), 2000);
   };
+
   const handleDeploy = async (id) => {
     try {
-      const result = await axios.get(`${serverUrl}/api/website/deploy/${id}`, {
-        withCredentials: true,
-      });
+      const result = await api.get(`/v0/website/deployWebsite/${id}`)
       window.open(`${result.data.url}`, "_blank");
       setWebsites((prev) =>
         prev.map((w) =>

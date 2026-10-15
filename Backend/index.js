@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const auth = require("./middlewares/auth");
 const websiteRouter = require("./routes/website");
-
+const billingRouter = require("./routes/billing")
 dotenv.config();
 
 const app = express();
@@ -22,6 +22,8 @@ app.use(cors({
 app.use("/api/v0/auth", authRouter);
 app.use("/api/v0/user", auth, userRouter);
 app.use("/api/v0/website", websiteRouter);
+app.use("/api/v0/billing", auth, billingRouter)
+
 const PORT = process.env.PORT || 8000;
 
 connectDB()
