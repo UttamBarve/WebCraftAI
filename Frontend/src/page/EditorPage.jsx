@@ -39,6 +39,7 @@ const EditorPage = () => {
   const [showCode, setShowCode] = useState(false);
   const [showFullPreview, setShowFullPreview] = useState(false);
   const [showChat, setShowChat] = useState(false);
+
   const thinkingSteps = [
     "Understanding your request…",
     "Planning layout changes…",
@@ -102,7 +103,14 @@ const EditorPage = () => {
       console.log(error);
     }
   };
-
+  const handleDeploy = async (id) => {
+    try {
+      const result = await api.get(`/v0/website/deployWebsite/${id}`);
+      window.open(`${result.data.url}`, "_blank");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSaveChanges = async () => {
     try {
       const result = await api.put(`/v0/website/saveWebsiteCode/${id}`, {
@@ -218,7 +226,7 @@ const EditorPage = () => {
             {!website.deployed && (
               <button
                 className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-linear-to-r from-indigo-500 to-purple-500 text-sm font-semibold hover:scale-105 transition"
-                // onClick={handleDeploy}
+                onClick={handleDeploy}
               >
                 <Rocket size={14} /> Deploy
               </button>
