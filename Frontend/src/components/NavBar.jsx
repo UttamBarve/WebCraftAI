@@ -63,7 +63,7 @@ const Navbar = ({ onGetStarted }) => {
           className="group flex items-center gap-2.5 cursor-pointer"
         >
           {/* Logo Icon */}
-          <div
+          {/* <div
             className="
               relative
               flex h-8 w-8
@@ -79,10 +79,10 @@ const Navbar = ({ onGetStarted }) => {
             "
           >
             <Sparkles className="h-4 w-4 text-white" />
-          </div>
+          </div> */}
 
           {/* Brand */}
-          <span
+          {/* <span
             className="
               text-lg
               font-semibold
@@ -95,7 +95,8 @@ const Navbar = ({ onGetStarted }) => {
             "
           >
             WebCraft AI
-          </span>
+          </span> */}
+          <img className="w-15" src="/Logo.png" alt="" />
         </button>
 
         {/* Right Side */}
