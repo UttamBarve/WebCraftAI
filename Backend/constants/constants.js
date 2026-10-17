@@ -33,9 +33,13 @@ QUALITY:
 - Prefer concise content and efficient code.
 - Make sensible decisions when the user leaves details unspecified.
 
-OUTPUT RAW JSON ONLY:
+
+- Generate a short meaningful project title based on the user's request. Prefer the brand/business name if provided; otherwise use a concise website type name.
+
+Return RAW JSON ONLY:
 {
   "message": "Short professional confirmation sentence",
+  "title": "Short meaningful website/project name",
   "code": "<FULL VALID HTML DOCUMENT>"
 }
 `;

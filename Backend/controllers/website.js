@@ -126,7 +126,7 @@ const generateWebsite = async (req, res) => {
     // VALIDATE CODE
     // =========================
 
-    if (!parsed.code) {
+    if (!parsed.code || !parsed.title) {
       console.log("7.2 - Parsed JSON does not contain code");
 
       return res.status(400).json({
@@ -148,7 +148,7 @@ const generateWebsite = async (req, res) => {
 
     const website = await Website.create({
       user: user._id,
-      title: prompt.slice(0, 60),
+      title: parsed.title,
       latestCode: parsed.code.replace(/\\n/g, "\n").replace(/\\"/g, '"'),
       conversation: [
         {
@@ -302,7 +302,7 @@ const generateWebsiteDemo = async (req, res) => {
     // VALIDATE CODE
     // =========================
 
-    if (!parsed.code) {
+    if (!parsed.code || !parsed.title) {
       console.log("7.2 - Parsed JSON does not contain code");
 
       return res.status(400).json({
@@ -324,7 +324,7 @@ const generateWebsiteDemo = async (req, res) => {
 
     const website = await Website.create({
       user: user._id,
-      title: prompt.slice(0, 60),
+      title: parsed.title,
       latestCode: parsed.code,
       conversation: [
         {
