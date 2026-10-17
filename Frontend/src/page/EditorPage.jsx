@@ -25,6 +25,7 @@ import EditorHeader from "@/components/EditorHeader";
 import EditorChat from "@/components/EditorChat";
 import Tooltip from "@/components/Tooltip";
 import Editor from "@monaco-editor/react";
+import { useNavigate} from "react-router-dom";
 
 const EditorPage = () => {
   const { id } = useParams();
@@ -39,7 +40,7 @@ const EditorPage = () => {
   const [showCode, setShowCode] = useState(false);
   const [showFullPreview, setShowFullPreview] = useState(false);
   const [showChat, setShowChat] = useState(false);
-
+  const navigate = useNavigate();
   const thinkingSteps = [
     "Understanding your request…",
     "Planning layout changes…",
@@ -103,14 +104,21 @@ const EditorPage = () => {
       console.log(error);
     }
   };
-  const handleDeploy = async (id) => {
-    try {
-      const result = await api.get(`/v0/website/deployWebsite/${id}`);
-      window.open(`${result.data.url}`, "_blank");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const handleDeploy = async () => {
+  try {
+    const result = await api.get(`/v0/website/deployWebsite/${id}`);
+
+    window.open(result.data.url, "_blank");
+
+    setWebsite((prev) => ({
+      ...prev,
+      deployed: true,
+      deployUrl: result.data.url,
+    }));
+  } catch (error) {
+    console.log(error);
+  }
+};
   const handleSaveChanges = async () => {
     try {
       const result = await api.put(`/v0/website/saveWebsiteCode/${id}`, {
@@ -220,7 +228,13 @@ const EditorPage = () => {
 
       <div className="flex-1 flex flex-col">
         <div className="h-14 px-4 flex justify-between items-center border-b border-white/10 bg-black/80">
-          <span className="text-xs text-zinc-400">Live Preview</span>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition"
+          >
+            <ArrowLeft size={15} />
+            Dashboard
+          </button>
 
           <div className="flex gap-2">
             {!website.deployed && (

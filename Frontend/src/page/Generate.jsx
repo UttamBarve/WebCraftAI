@@ -108,29 +108,39 @@ const Generate = () => {
             <textarea
               onChange={(e) => setPrompt(e.target.value)}
               value={prompt}
-              placeholder="Describe your website in detail..."
-              className="w-[70vw] h-50  p-6 rounded-3xl bg-black/60 border border-white/10 outline-none resize-none text-sm leading-relaxed focus:ring-2 focus:ring-white/20"
-            ></textarea>
+              placeholder="Describe your website...  (Enter to send · Shift + Enter for new line)"
+              className="w-[70vw] h-50 p-6 rounded-3xl bg-black/60 border border-white/10 outline-none resize-none text-sm leading-relaxed focus:ring-2 focus:ring-white/20"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+
+                  if (!loading || prompt.trim()) {
+                    handleGenerateWebsite();
+                  }
+                }
+              }}
+            />
           </div>
           {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
         </div>
 
-      
-        {!loading ?(  <div className="flex justify-center">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.96 }}
-            onClick={handleGenerateWebsite}
-            disabled={!prompt.trim() && loading}
-            className={`px-14 py-4 rounded-2xl font-semibold text-lg ${
-              prompt.trim() && !loading
-                ? "bg-white text-black"
-                : "bg-white/20 text-zinc-400 cursor-not-allowed"
-            }`}
-          >
-            Generate Website
-          </motion.button>
-        </div>) :  (
+        {!loading ? (
+          <div className="flex justify-center">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={handleGenerateWebsite}
+              disabled={!prompt.trim() && loading}
+              className={`px-14 py-4 rounded-2xl font-semibold text-lg ${
+                prompt.trim() && !loading
+                  ? "bg-white text-black"
+                  : "bg-white/20 text-zinc-400 cursor-not-allowed"
+              }`}
+            >
+              Generate Website
+            </motion.button>
+          </div>
+        ) : (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

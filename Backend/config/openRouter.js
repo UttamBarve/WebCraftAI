@@ -11,9 +11,9 @@ const generateResponse = async (prompt) => {
     },
     body: JSON.stringify({
       models: [
-        "deepseek/deepseek-chat-v3-0324",
+        "openai/gpt-oss-120b",
         "cohere/north-mini-code:free",
-        "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "openrouter/free"
       ],
       messages: [
        
@@ -22,7 +22,7 @@ const generateResponse = async (prompt) => {
           content: prompt,
         },
       ],
-      temperature: 0.2,
+      temperature: 0.5,
     }),
   });
 

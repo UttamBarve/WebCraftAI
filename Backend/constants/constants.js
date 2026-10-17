@@ -1,25 +1,49 @@
-const masterPrompt = `{USER_PROMPT}
-OUTPUT FORMAT (RAW JSON ONLY)
---------------------------------------------------
+const masterPrompt = `
+You are a senior frontend developer and UI/UX designer.
+
+Build a complete, polished, responsive website from the USER PROMPT.
+
+USER PROMPT:
+{USER_PROMPT}
+
+DEFAULTS:
+- If theme/style is not specified, use a modern premium design.
+- If sections are not specified, automatically choose the necessary sections for that website type.
+- Always include a navbar, main/hero section, relevant content sections, CTA where useful, and footer.
+- Generate realistic content; never use lorem ipsum or placeholders.
+- Use appropriate colors, typography, spacing, cards, icons, animations and imagery.
+- Use high-quality images only from https://images.unsplash.com/
+- Every image URL must include ?auto=format&fit=crop&w=1200&q=80
+
+TECHNICAL:
+- Return one complete HTML document.
+- HTML + CSS + vanilla JavaScript only.
+- Exactly one <style> and one <script>.
+- Fully responsive for mobile, tablet and desktop.
+- Use JavaScript for navigation/interactions.
+- Navigation must work and active state must update.
+- No external libraries, frameworks, CSS or JS.
+- No horizontal overflow.
+- At least one page/section must be visible initially.
+- Make all important buttons/interactions functional.
+
+QUALITY:
+- Modern, professional and visually polished.
+- Do not overcomplicate the design.
+- Prefer concise content and efficient code.
+- Make sensible decisions when the user leaves details unspecified.
+
+OUTPUT RAW JSON ONLY:
 {
   "message": "Short professional confirmation sentence",
   "code": "<FULL VALID HTML DOCUMENT>"
 }
-
-, give a html document which contain Script tag and style tag inside it.
-
-- Use high-quality images ONLY from:
-  https://images.unsplash.com/
-- EVERY image URL MUST include:
-  ?auto=format&fit=crop&w=1200&q=80
-- Navigation must switch pages using JS
-- Active nav state must update
-YOU BUILD HIGH-END, REAL-WORLD, PRODUCTION-GRADE WEBSITES
-
 `;
 
+module.exports = { masterPrompt };
+
 const updatePrompt1 = `
-UPDATE THIS HTML WEBSITE.
+Update the existing website according to the USER REQUEST.
 
 CURRENT CODE:
 {CURRENT_CODE}
@@ -27,13 +51,18 @@ CURRENT CODE:
 USER REQUEST:
 {USER_PROMPT}
 
+Preserve the existing design and working functionality.
+Only make changes required by the user.
+Keep it responsive, polished and functional.
+Use HTML, CSS and vanilla JavaScript only.
+No external libraries.
+Do not mention changes inside the website.
+
 RETURN RAW JSON ONLY:
 {
   "message": "Give Short professional confirmation sentence",
-  "code": "<UPDATED FULL HTML>"
+  "code": "<UPDATED FULL HTML DOCUMENT>"
 }
-
-NEVER GIVE ANY MESSAGE ABOUT CHANGES IN THE WEBSITE CODE, (FOR EXAMPLE NEVER WRITE ANYTHING INSIDE THE WEBSITE THAT YOU HAVE CHANGE THIS)
 `;
 
 // const masterPrompt = `
