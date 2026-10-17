@@ -19,7 +19,7 @@ router.get("/getWebsite/:id", auth, getWebsiteById);
 router.post("/updateWebsite/:id", auth, updateWebsite);
 router.get("/getAllWebsites", auth, getAllWebsites);
 router.get("/deployWebsite/:id", auth, deployWebsite);
-router.get("/getWebsiteBySlug/:slug", auth, getWebsiteBySlug);
+router.get("/getWebsiteBySlug/:slug", getWebsiteBySlug);
 router.put("/saveWebsiteCode/:id", auth, saveWebsiteCode);
 
 module.exports = router;
